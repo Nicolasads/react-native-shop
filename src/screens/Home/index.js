@@ -13,7 +13,6 @@ import {
   FilterPlaceholder,
   FilterView,
   Header,
-  ItemsListContainer,
   ItemsListPlaceholder,
   NewItemsContainer,
   NewItemsContent,
@@ -22,7 +21,6 @@ import {
 } from "./styles";
 
 export default function Home({ navigation }) {
-  const [category, setCategory] = useState(0);
   const [news, setNews] = useState([]);
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -86,14 +84,9 @@ export default function Home({ navigation }) {
             </Header>
 
             <FilterView>
-              <FilterPlaceholder>
-                Filtrar Categoria {category != null && category}
-              </FilterPlaceholder>
+              <FilterPlaceholder>Filtrar Categoria</FilterPlaceholder>
 
-              <Categories
-                onChangeSelect={(category) => setCategory(category)}
-                loading={loading}
-              />
+              <Categories loading={loading} />
             </FilterView>
 
             <NewItemsContainer>

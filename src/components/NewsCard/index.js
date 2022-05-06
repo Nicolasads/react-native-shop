@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   AddButton,
   CardBody,
@@ -11,31 +11,45 @@ import {
   ItemTitle,
 } from "./styles";
 import { Entypo } from "@expo/vector-icons";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../features/cart/cartSlice";
+import AddedItemModal from "../AddedItemModal";
 
 export default function NewsCard({ data }) {
+  const [visible, setVisible] = useState(false);
+  const dispatch = useDispatch();
+
+  const changeModalVisible = (bool) => {
+    setVisible(bool);
+  };
+
   return (
-    data !== null &&
-    data.map((item) => (
-      <CardContent key={item.id}>
-        <CardImage source={{ uri: item.image }} />
-        <CardBody>
-          <ItemCategory> {item.category} </ItemCategory>
+    <>
+      {data !== null &&
+        data.map((item) => (
+          <CardContent key={item.id}>
+            <CardImage source={{ uri: item.image }} />
+            <CardBody>
+              <ItemCategory> {item.category} </ItemCategory>
 
-          <ItemTitle numberOfLines={1}> {item.title} </ItemTitle>
+              <ItemTitle numberOfLines={1}> {item.title} </ItemTitle>
 
-          <ItemDescription numberOfLines={2}>
-            {item.description}
-          </ItemDescription>
-        </CardBody>
+              <ItemDescription numberOfLines={2}>
+                {item.description}
+              </ItemDescription>
+            </CardBody>
 
-        <CardFooter>
-          <ItemPrice>$ {item.price} </ItemPrice>
+            <CardFooter>
+              <ItemPrice>$ {item.price} </ItemPrice>
 
-          <AddButton>
-            <Entypo name="plus" size={14} color="#8775FE" />
-          </AddButton>
-        </CardFooter>
-      </CardContent>
-    ))
+              <AddButton onPress={() => setVisible(true)}>
+                <Entypo name="plus" size={14} color="#8775FE" />
+              </AddButton>
+            </CardFooter>
+          </CardContent>
+        ))}
+
+      <AddedItemModal visible={visible} close={changeModalVisible} />
+    </>
   );
 }

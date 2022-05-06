@@ -11,6 +11,7 @@ export default {
   secondaryText: "#8775FE",
   button: "#504DB6",
   cartItem: "#ECE9FF",
+  modalBackground: "#fff",
   regular: "WorkSans_400Regular",
   medium: "WorkSans_500Medium",
   semibold: "WorkSans_600SemiBold",
