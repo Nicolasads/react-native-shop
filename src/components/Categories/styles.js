@@ -4,6 +4,11 @@ export const FilterList = styled.ScrollView`
   margin-top: 8px;
 `;
 
+export const FilterLoading = styled.Text`
+  color: ${(props) => props.theme.primaryText};
+  font-family: ${(props) => props.theme.semibold};
+`;
+
 export const FilterButton = styled.TouchableOpacity`
   background-color: ${(props) => props.theme.secondaryButton};
   margin-right: 10px;
@@ -15,4 +20,7 @@ export const FilterButton = styled.TouchableOpacity`
 
 export const FilterLabel = styled.Text`
   color: ${(props) => props.theme.label};
+  font-family: ${(props) => props.theme.bold};
+  font-size: 12px;
+  text-transform: capitalize;
 `;

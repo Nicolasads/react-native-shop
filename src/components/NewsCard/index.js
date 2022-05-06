@@ -12,27 +12,30 @@ import {
 } from "./styles";
 import { Entypo } from "@expo/vector-icons";
 
-export default function NewsCard() {
+export default function NewsCard({ data }) {
   return (
-    <CardContent>
-      <CardImage source={require("../../assets/bolsa.png")} />
-      <CardBody>
-        <ItemCategory>men's clothing</ItemCategory>
+    data !== null &&
+    data.map((item) => (
+      <CardContent key={item.id}>
+        <CardImage source={{ uri: item.image }} />
+        <CardBody>
+          <ItemCategory> {item.category} </ItemCategory>
 
-        <ItemTitle>Fjallraven - Foldsack</ItemTitle>
+          <ItemTitle numberOfLines={1}> {item.title} </ItemTitle>
 
-        <ItemDescription>
-          Your perfect pack for everyday use and walks in the forest.
-        </ItemDescription>
-      </CardBody>
+          <ItemDescription numberOfLines={2}>
+            {item.description}
+          </ItemDescription>
+        </CardBody>
 
-      <CardFooter>
-        <ItemPrice>$109.95</ItemPrice>
+        <CardFooter>
+          <ItemPrice>$ {item.price} </ItemPrice>
 
-        <AddButton>
-          <Entypo name="plus" size={14} color="#8775FE" />
-        </AddButton>
-      </CardFooter>
-    </CardContent>
+          <AddButton>
+            <Entypo name="plus" size={14} color="#8775FE" />
+          </AddButton>
+        </CardFooter>
+      </CardContent>
+    ))
   );
 }

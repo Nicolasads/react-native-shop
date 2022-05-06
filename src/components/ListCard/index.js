@@ -13,14 +13,13 @@ import {
 } from "./styles";
 import { Entypo } from "@expo/vector-icons";
 
-export default function ListCard({ data }) {
+export default function ListCard({ item }) {
   return (
-    data !== null &&
-    data.map((list, index) => (
-      <ListContainer key={index}>
+    item !== null && (
+      <ListContainer>
         <CardContent>
           <CardHeader>
-            <CardImage source={{ uri: list.image }} />
+            <CardImage source={{ uri: item.image }} />
 
             <AddButton>
               <Entypo name="plus" size={14} color="#8775FE" />
@@ -28,16 +27,16 @@ export default function ListCard({ data }) {
           </CardHeader>
 
           <CardBody>
-            <ItemCategory> {list.category} </ItemCategory>
+            <ItemCategory> {item.category} </ItemCategory>
 
-            <ItemTitle> {list.title} </ItemTitle>
+            <ItemTitle numberOfLines={2}> {item.title} </ItemTitle>
           </CardBody>
 
           <CardFooter>
-            <ItemPrice>$ {list.price} </ItemPrice>
+            <ItemPrice>$ {item.price} </ItemPrice>
           </CardFooter>
         </CardContent>
       </ListContainer>
-    ))
+    )
   );
 }

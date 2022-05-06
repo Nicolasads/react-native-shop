@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { FlatList } from "react-native";
+import { Text } from "react-native";
+import AnimatedLoading from "../../components/AnimatedLoading";
 import Categories from "../../components/Categories";
-import CheckoutFooter from "../../components/CheckoutFooter";
 import ListCard from "../../components/ListCard";
 import NewsCard from "../../components/NewsCard";
 import { api } from "../../services/api";
@@ -8,9 +10,6 @@ import {
   CartButton,
   CartIcon,
   Container,
-  FilterButton,
-  FilterLabel,
-  FilterList,
   FilterPlaceholder,
   FilterView,
   Header,
@@ -26,57 +25,80 @@ export default function Home({ navigation }) {
   const [category, setCategory] = useState(0);
   const [news, setNews] = useState([]);
   const [list, setList] = useState([]);
-
-  const getNews = () => {
-    api.get("/products?limit=5").then((news) => {
-      setNews(news.data);
-      console.log(news.data);
-    });
-  };
-
-  const getList = () => {
-    api.get("/products?limit=5").then((list) => {
-      setList(list.data);
-    });
-  };
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
+
+    const getNews = () => {
+      api.get("/products?limit=5").then((news) => {
+        setNews(news.data);
+
+        setLoading(false);
+        console.log("carregando 1", loading);
+      });
+    };
+
+    const getList = () => {
+      api.get("/products").then((list) => {
+        setList(list.data);
+
+        setLoading(false);
+        console.log("carregando 2", loading);
+      });
+    };
+
     getNews();
     getList();
   }, []);
 
   return (
-    <Container>
-      <Header>
-        <TextHeader>Produtos</TextHeader>
+    <AnimatedLoading />
 
-        <CartButton onPress={() => navigation.navigate("Cart")}>
-          <CartIcon source={require("../../assets/BAG_1.png")} />
-        </CartButton>
-      </Header>
+    // <Container>
+    //   <FlatList
+    //     ListHeaderComponent={() => (
+    //       <>
+    //         <Header>
+    //           <TextHeader>Produtos</TextHeader>
 
-      <FilterView>
-        <FilterPlaceholder>
-          Filtrar Categoria {category != null && category}
-        </FilterPlaceholder>
+    //           <CartButton onPress={() => navigation.navigate("Cart")}>
+    //             <CartIcon source={require("../../assets/BAG_1.png")} />
+    //           </CartButton>
+    //         </Header>
 
-        <Categories onChangeSelect={(category) => setCategory(category)} />
-      </FilterView>
+    //         <FilterView>
+    //           <FilterPlaceholder>
+    //             Filtrar Categoria {category != null && category}
+    //           </FilterPlaceholder>
 
-      <NewItemsContainer>
-        <NewItemsPlaceholder>Novidades</NewItemsPlaceholder>
-        <NewItemsContent horizontal showsHorizontalScrollIndicator={false}>
-          <NewsCard data={news} />
-          <NewsCard />
-          <NewsCard />
-          <NewsCard />
-        </NewItemsContent>
-      </NewItemsContainer>
+    //           <Categories
+    //             onChangeSelect={(category) => setCategory(category)}
+    //           />
+    //         </FilterView>
 
-      <ItemsListPlaceholder>Listagem</ItemsListPlaceholder>
-      <ItemsListContainer>
-        <ListCard data={news} />
-      </ItemsListContainer>
-    </Container>
+    //         <NewItemsContainer>
+    //           <NewItemsPlaceholder>Novidades</NewItemsPlaceholder>
+    //           <NewItemsContent
+    //             horizontal
+    //             showsHorizontalScrollIndicator={false}
+    //           >
+    //             {loading ? (
+    //               <Text>Carregando novidades...</Text>
+    //             ) : (
+    //               <NewsCard data={news} />
+    //             )}
+    //           </NewItemsContent>
+    //         </NewItemsContainer>
+
+    //         <ItemsListPlaceholder>Listagem</ItemsListPlaceholder>
+    //       </>
+    //     )}
+    //     data={list}
+    //     keyExtractor={(item) => item.id}
+    //     renderItem={({ item }) => <ListCard item={item} />}
+    //     numColumns={2}
+    //   />
+    // </Container>
   );
 }
