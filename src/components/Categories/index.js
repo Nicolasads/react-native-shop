@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Text } from "react-native";
 import { api } from "../../services/api";
 import { FilterButton, FilterLabel, FilterList, FilterLoading } from "./styles";
 
-export default function Categories({ onChangeSelect }) {
+export default function Categories({ onChangeSelect, loading }) {
   const [category, setCategory] = useState([]);
   const [categoryIndex, setCategoryIndex] = useState(0);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
+    let canceled = false;
 
-    api.get("products/categories").then((categories) => {
-      setCategory(categories.data);
-      setLoading(false);
-    });
+    async function fetchCategories() {
+      const result = await api.get("products/categories");
+      if (!canceled) {
+        setCategory(result.data);
+      }
+    }
+
+    fetchCategories();
+    return () => {
+      canceled = true;
+    };
   }, []);
 
   const changeIndex = (index) => {
@@ -27,7 +32,7 @@ export default function Categories({ onChangeSelect }) {
   return (
     <FilterList horizontal showsHorizontalScrollIndicator={false}>
       {loading ? (
-        <FilterLoading>Carregando categorias...</FilterLoading>
+        <FilterLoading>Carregando...</FilterLoading>
       ) : (
         category.map((categories, index) => (
           <FilterButton

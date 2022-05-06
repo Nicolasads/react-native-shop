@@ -28,77 +28,96 @@ export default function Home({ navigation }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
+    let canceled = false;
 
-    const getNews = () => {
-      api.get("/products?limit=5").then((news) => {
-        setNews(news.data);
+    async function fetchNews() {
+      setLoading(true);
 
-        setLoading(false);
-        console.log("carregando 1", loading);
-      });
+      const result = await api
+        .get("/products?limit=5")
+        .finally(() => setLoading(false));
+
+      if (!canceled) {
+        setNews(result.data);
+      }
+    }
+
+    fetchNews();
+
+    return () => {
+      canceled = true;
     };
-
-    const getList = () => {
-      api.get("/products").then((list) => {
-        setList(list.data);
-
-        setLoading(false);
-        console.log("carregando 2", loading);
-      });
-    };
-
-    getNews();
-    getList();
   }, []);
 
-  return (
+  useEffect(() => {
+    let canceled = false;
+
+    async function fetchList() {
+      setLoading(true);
+
+      const result = await api
+        .get("/products")
+        .finally(() => setLoading(false));
+      if (!canceled) {
+        setList(result.data);
+      }
+    }
+
+    fetchList();
+
+    return () => {
+      canceled = true;
+    };
+  }, []);
+
+  return loading ? (
     <AnimatedLoading />
+  ) : (
+    <Container>
+      <FlatList
+        ListHeaderComponent={() => (
+          <>
+            <Header>
+              <TextHeader>Produtos</TextHeader>
 
-    // <Container>
-    //   <FlatList
-    //     ListHeaderComponent={() => (
-    //       <>
-    //         <Header>
-    //           <TextHeader>Produtos</TextHeader>
+              <CartButton onPress={() => navigation.navigate("Cart")}>
+                <CartIcon source={require("../../assets/BAG_1.png")} />
+              </CartButton>
+            </Header>
 
-    //           <CartButton onPress={() => navigation.navigate("Cart")}>
-    //             <CartIcon source={require("../../assets/BAG_1.png")} />
-    //           </CartButton>
-    //         </Header>
+            <FilterView>
+              <FilterPlaceholder>
+                Filtrar Categoria {category != null && category}
+              </FilterPlaceholder>
 
-    //         <FilterView>
-    //           <FilterPlaceholder>
-    //             Filtrar Categoria {category != null && category}
-    //           </FilterPlaceholder>
+              <Categories
+                onChangeSelect={(category) => setCategory(category)}
+                loading={loading}
+              />
+            </FilterView>
 
-    //           <Categories
-    //             onChangeSelect={(category) => setCategory(category)}
-    //           />
-    //         </FilterView>
+            <NewItemsContainer>
+              <NewItemsPlaceholder>Novidades</NewItemsPlaceholder>
+              <NewItemsContent
+                horizontal
+                showsHorizontalScrollIndicator={false}
+              >
+                {loading ? (
+                  <Text>Carregando novidades...</Text>
+                ) : (
+                  <NewsCard data={news} />
+                )}
+              </NewItemsContent>
+            </NewItemsContainer>
 
-    //         <NewItemsContainer>
-    //           <NewItemsPlaceholder>Novidades</NewItemsPlaceholder>
-    //           <NewItemsContent
-    //             horizontal
-    //             showsHorizontalScrollIndicator={false}
-    //           >
-    //             {loading ? (
-    //               <Text>Carregando novidades...</Text>
-    //             ) : (
-    //               <NewsCard data={news} />
-    //             )}
-    //           </NewItemsContent>
-    //         </NewItemsContainer>
-
-    //         <ItemsListPlaceholder>Listagem</ItemsListPlaceholder>
-    //       </>
-    //     )}
-    //     data={list}
-    //     keyExtractor={(item) => item.id}
-    //     renderItem={({ item }) => <ListCard item={item} />}
-    //     numColumns={2}
-    //   />
-    // </Container>
+            <ItemsListPlaceholder>Listagem</ItemsListPlaceholder>
+          </>
+        )}
+        data={list}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => <ListCard item={item} />}
+        numColumns={2}
+      />
+    </Container>
   );
 }

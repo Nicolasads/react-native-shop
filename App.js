@@ -32,7 +32,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <ThemeProvider theme={theme}>
-        <StatusBar style="auto" />
+        <StatusBar style="auto" translucent={true} />
         <Routes />
       </ThemeProvider>
     </NavigationContainer>
