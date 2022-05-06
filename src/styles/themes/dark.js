@@ -1,6 +1,7 @@
 export default {
   black: "#000",
   primaryBackground: "#1B1B1B",
+  white: "#fff",
   primaryText: "#F2F2F2",
   secondaryButton: "#F6F6F6",
   border: "#EBEBED",

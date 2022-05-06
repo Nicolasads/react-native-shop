@@ -9,29 +9,35 @@ import {
   ItemCategory,
   ItemPrice,
   ItemTitle,
+  ListContainer,
 } from "./styles";
 import { Entypo } from "@expo/vector-icons";
 
-export default function ListCard() {
+export default function ListCard({ data }) {
   return (
-    <CardContent>
-      <CardHeader>
-        <CardImage source={require("../../assets/bolsa.png")} />
+    data !== null &&
+    data.map((list, index) => (
+      <ListContainer key={index}>
+        <CardContent>
+          <CardHeader>
+            <CardImage source={{ uri: list.image }} />
 
-        <AddButton>
-          <Entypo name="plus" size={14} color="#8775FE" />
-        </AddButton>
-      </CardHeader>
+            <AddButton>
+              <Entypo name="plus" size={14} color="#8775FE" />
+            </AddButton>
+          </CardHeader>
 
-      <CardBody>
-        <ItemCategory>men's clothing</ItemCategory>
+          <CardBody>
+            <ItemCategory> {list.category} </ItemCategory>
 
-        <ItemTitle>Fjallraven - Foldsack</ItemTitle>
-      </CardBody>
+            <ItemTitle> {list.title} </ItemTitle>
+          </CardBody>
 
-      <CardFooter>
-        <ItemPrice>$109.95</ItemPrice>
-      </CardFooter>
-    </CardContent>
+          <CardFooter>
+            <ItemPrice>$ {list.price} </ItemPrice>
+          </CardFooter>
+        </CardContent>
+      </ListContainer>
+    ))
   );
 }

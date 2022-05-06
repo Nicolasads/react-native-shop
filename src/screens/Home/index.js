@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Categories from "../../components/Categories";
 import CheckoutFooter from "../../components/CheckoutFooter";
 import ListCard from "../../components/ListCard";
 import NewsCard from "../../components/NewsCard";
+import { api } from "../../services/api";
 import {
   CartButton,
   CartIcon,
@@ -21,6 +23,28 @@ import {
 } from "./styles";
 
 export default function Home({ navigation }) {
+  const [category, setCategory] = useState(0);
+  const [news, setNews] = useState([]);
+  const [list, setList] = useState([]);
+
+  const getNews = () => {
+    api.get("/products?limit=5").then((news) => {
+      setNews(news.data);
+      console.log(news.data);
+    });
+  };
+
+  const getList = () => {
+    api.get("/products?limit=5").then((list) => {
+      setList(list.data);
+    });
+  };
+
+  useEffect(() => {
+    getNews();
+    getList();
+  }, []);
+
   return (
     <Container>
       <Header>
@@ -32,35 +56,17 @@ export default function Home({ navigation }) {
       </Header>
 
       <FilterView>
-        <FilterPlaceholder>Filtrar Categoria</FilterPlaceholder>
+        <FilterPlaceholder>
+          Filtrar Categoria {category != null && category}
+        </FilterPlaceholder>
 
-        <FilterList horizontal showsHorizontalScrollIndicator={false}>
-          <FilterButton>
-            <FilterLabel>Últimos</FilterLabel>
-          </FilterButton>
-
-          <FilterButton>
-            <FilterLabel>Categoria 1</FilterLabel>
-          </FilterButton>
-
-          <FilterButton>
-            <FilterLabel>Categoria 2</FilterLabel>
-          </FilterButton>
-
-          <FilterButton>
-            <FilterLabel>Categoria 3</FilterLabel>
-          </FilterButton>
-
-          <FilterButton>
-            <FilterLabel>Categoria 4</FilterLabel>
-          </FilterButton>
-        </FilterList>
+        <Categories onChangeSelect={(category) => setCategory(category)} />
       </FilterView>
 
       <NewItemsContainer>
         <NewItemsPlaceholder>Novidades</NewItemsPlaceholder>
         <NewItemsContent horizontal showsHorizontalScrollIndicator={false}>
-          <NewsCard />
+          <NewsCard data={news} />
           <NewsCard />
           <NewsCard />
           <NewsCard />
@@ -69,23 +75,8 @@ export default function Home({ navigation }) {
 
       <ItemsListPlaceholder>Listagem</ItemsListPlaceholder>
       <ItemsListContainer>
-        <ListCard />
-        <ListCard />
+        <ListCard data={news} />
       </ItemsListContainer>
-      <ItemsListContainer>
-        <ListCard />
-        <ListCard />
-      </ItemsListContainer>
-      <ItemsListContainer>
-        <ListCard />
-        <ListCard />
-      </ItemsListContainer>
-      <ItemsListContainer>
-        <ListCard />
-        <ListCard />
-      </ItemsListContainer>
-
-      <CheckoutFooter />
     </Container>
   );
 }

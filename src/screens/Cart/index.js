@@ -7,6 +7,16 @@ import {
   CartBody,
   CartPlaceholder,
   CartItemList,
+  CartFooter,
+  CartSubtotal,
+  CartSubtotalLabel,
+  CheckoutButton,
+  CheckoutButtonText,
+  CartNullBody,
+  CartIcon,
+  CartNullText,
+  CartNullButton,
+  CartNullLabel,
 } from "./styles";
 import { Ionicons } from "@expo/vector-icons";
 import { View } from "react-native";
@@ -23,7 +33,7 @@ export default function Cart({ navigation }) {
         <View />
       </CartHeader>
 
-      <CartBody>
+      {/* <CartBody>
         <CartPlaceholder>Meu Carrinho</CartPlaceholder>
 
         <CartItemList>
@@ -38,6 +48,26 @@ export default function Cart({ navigation }) {
           <CartItem />
         </CartItemList>
       </CartBody>
+      <CartFooter>
+        <CartSubtotal>
+          <CartSubtotalLabel>Total:</CartSubtotalLabel>
+          <CartSubtotalLabel>$549.75</CartSubtotalLabel>
+        </CartSubtotal>
+
+        <CheckoutButton>
+          <CheckoutButtonText>Finalizar compra</CheckoutButtonText>
+        </CheckoutButton>
+      </CartFooter> */}
+
+      <CartNullBody>
+        <CartIcon source={require("../../assets/BAG_GRAY.png")} />
+
+        <CartNullText>Nenhum item adicionado no carrinho.</CartNullText>
+
+        <CartNullButton>
+          <CartNullLabel>Adicionar itens</CartNullLabel>
+        </CartNullButton>
+      </CartNullBody>
     </CartContainer>
   );
 }

@@ -1,8 +1,13 @@
 import styled from "styled-components/native";
 
 export const CardContent = styled.View`
-  margin-right: 20px;
   width: 160px;
+`;
+
+export const ListContainer = styled.View`
+  padding: 15px 20px 0px;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
 export const CardHeader = styled.View``;
