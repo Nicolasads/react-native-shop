@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   BackButton,
   CartContainer,
@@ -6,7 +6,6 @@ import {
   CartHeader,
   CartBody,
   CartPlaceholder,
-  CartItemList,
   CartFooter,
   CartSubtotal,
   CartSubtotalLabel,
@@ -58,12 +57,11 @@ export default function Cart({ navigation }) {
               style={{ marginTop: 30 }}
               showsVerticalScrollIndicator={false}
             />
-            {/* <CartItemList></CartItemList> */}
           </CartBody>
           <CartFooter>
             <CartSubtotal>
               <CartSubtotalLabel>Total:</CartSubtotalLabel>
-              <CartSubtotalLabel>$ {totalPrice} </CartSubtotalLabel>
+              <CartSubtotalLabel>$ {totalPrice.toFixed(2)} </CartSubtotalLabel>
             </CartSubtotal>
 
             <CheckoutButton onPress={() => navigation.navigate("Checkout")}>

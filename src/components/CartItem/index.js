@@ -48,6 +48,12 @@ export default function CartItem({ item }) {
     }
   };
 
+  const productSubtotal = () => {
+    const subtotal = item.price * item.quantity;
+
+    return subtotal;
+  };
+
   return (
     <ItemContainer key={item.id}>
       <ItemInfos>
@@ -58,7 +64,7 @@ export default function CartItem({ item }) {
 
           <ItemValue>
             <ItemQty>{item.quantity}x</ItemQty>
-            <ItemPrice>${item.price * item.quantity}</ItemPrice>
+            <ItemPrice>$ {productSubtotal().toFixed(2)}</ItemPrice>
           </ItemValue>
         </ItemDescription>
       </ItemInfos>

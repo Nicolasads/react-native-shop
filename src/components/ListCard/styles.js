@@ -13,7 +13,6 @@ export const ListContainer = styled.View`
 export const CardHeader = styled.View``;
 
 export const CardBody = styled.View`
-  margin-left: 8px;
   margin-top: 5px;
 `;
 

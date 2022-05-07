@@ -21,9 +21,26 @@ import {
 } from "./styles";
 
 export default function Home({ navigation }) {
+  const [category, setCategory] = useState([]);
   const [news, setNews] = useState([]);
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    let canceled = false;
+
+    async function fetchCategories() {
+      const result = await api.get("products/categories");
+      if (!canceled) {
+        setCategory(result.data);
+      }
+    }
+
+    fetchCategories();
+    return () => {
+      canceled = true;
+    };
+  }, []);
 
   useEffect(() => {
     let canceled = false;
@@ -86,7 +103,7 @@ export default function Home({ navigation }) {
             <FilterView>
               <FilterPlaceholder>Filtrar Categoria</FilterPlaceholder>
 
-              <Categories loading={loading} />
+              <Categories loading={loading} data={category} />
             </FilterView>
 
             <NewItemsContainer>
@@ -95,11 +112,7 @@ export default function Home({ navigation }) {
                 horizontal
                 showsHorizontalScrollIndicator={false}
               >
-                {loading ? (
-                  <Text>Carregando novidades...</Text>
-                ) : (
-                  <NewsCard data={news} />
-                )}
+                <NewsCard data={news} />
               </NewItemsContent>
             </NewItemsContainer>
 

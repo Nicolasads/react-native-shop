@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import Toast from "react-native-toast-message";
 
 export const cartSlice = createSlice({
   name: "cart",
@@ -22,6 +23,13 @@ export const cartSlice = createSlice({
       state.cartItems = state.cartItems.filter(
         (cartItem) => cartItem.id !== action.payload.id
       );
+
+      Toast.show({
+        type: "success",
+        text1: "Produto removido",
+        text2: "Produto removido do carrinho.",
+        position: "top",
+      });
     },
     decreaseQuantity: (state, action) => {
       const itemIndex = state.cartItems.findIndex(
@@ -31,6 +39,9 @@ export const cartSlice = createSlice({
       if (state.cartItems[itemIndex].quantity > 1) {
         state.cartItems[itemIndex].quantity -= 1;
       }
+    },
+    clearCart: (state, action) => {
+      state.cartItems = [];
     },
   },
 });
@@ -43,7 +54,7 @@ export const getTotalPrice = (state) => {
   }, 0);
 };
 
-export const { addToCart, removeFromCart, decreaseQuantity } =
+export const { addToCart, removeFromCart, decreaseQuantity, clearCart } =
   cartSlice.actions;
 
 export default cartSlice.reducer;

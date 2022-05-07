@@ -9,14 +9,24 @@ import {
   CheckoutText,
 } from "./styles";
 import LottieView from "lottie-react-native";
+import { useDispatch } from "react-redux";
+import { clearCart } from "../../features/cart/cartSlice";
 
-export default function Checkout() {
+export default function Checkout({ navigation }) {
+  const dispatch = useDispatch();
+
   const animation = useRef(null);
   const firstRun = useRef(true);
 
+  const checkoutCart = () => {
+    dispatch(clearCart());
+
+    navigation.navigate("Home");
+  };
+
   useEffect(() => {
     if (firstRun.current) {
-      animation.current.play();
+      animation.current.play(0, 120);
     }
   }, []);
 
@@ -25,6 +35,7 @@ export default function Checkout() {
       <LottieView
         source={require("../../assets/animated-success.json")}
         ref={animation}
+        loop={false}
       />
       <CheckoutDivider />
 
@@ -35,7 +46,7 @@ export default function Checkout() {
           Compra realizada com sucesso, aproveite!
         </CheckoutDescription>
 
-        <CheckoutButton>
+        <CheckoutButton onPress={() => checkoutCart()}>
           <CheckoutButtonText>Prosseguir</CheckoutButtonText>
         </CheckoutButton>
       </CheckoutInfos>

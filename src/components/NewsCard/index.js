@@ -45,7 +45,7 @@ export default function NewsCard({ data }) {
             </CardBody>
 
             <CardFooter>
-              <ItemPrice>$ {item.price} </ItemPrice>
+              <ItemPrice>$ {item.price.toFixed(2)} </ItemPrice>
 
               <AddButton onPress={() => addItem(item)}>
                 <Entypo name="plus" size={14} color="#8775FE" />

@@ -1,4 +1,12 @@
 import { StatusBar } from "expo-status-bar";
+
+import { ThemeProvider } from "styled-components";
+import { Provider } from "react-redux";
+import { store } from "./src/features/store/store";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
+import { NavigationContainer } from "@react-navigation/native";
+
 import { useColorScheme } from "react-native";
 import {
   useFonts,
@@ -7,15 +15,11 @@ import {
   WorkSans_600SemiBold,
   WorkSans_700Bold,
 } from "@expo-google-fonts/work-sans";
-import { ThemeProvider } from "styled-components";
+
 import themes from "./src/styles/styled";
-import { NavigationContainer } from "@react-navigation/native";
+import Toast from "react-native-toast-message";
 import Routes from "./src/routes/routes";
 import Loading from "./src/components/Loading";
-import { Provider } from "react-redux";
-import { store } from "./src/features/store/store";
-import { PersistGate } from "redux-persist/integration/react";
-import { persistStore } from "redux-persist";
 
 export default function App() {
   let persistor = persistStore(store);
@@ -42,6 +46,7 @@ export default function App() {
           <PersistGate loading={<Loading />} persistor={persistor}>
             <StatusBar style="auto" translucent={true} />
             <Routes />
+            <Toast />
           </PersistGate>
         </Provider>
       </ThemeProvider>

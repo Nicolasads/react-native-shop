@@ -49,7 +49,7 @@ export default function ListCard({ item }) {
             </CardBody>
 
             <CardFooter>
-              <ItemPrice>$ {item.price} </ItemPrice>
+              <ItemPrice>$ {item.price.toFixed(2)} </ItemPrice>
             </CardFooter>
           </CardContent>
         </ListContainer>

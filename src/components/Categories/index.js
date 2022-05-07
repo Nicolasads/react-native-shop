@@ -1,30 +1,17 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { api } from "../../services/api";
 import { FilterButton, FilterLabel, FilterList, FilterLoading } from "./styles";
 
-export default function Categories({ onChangeSelect, loading }) {
-  const [category, setCategory] = useState([]);
+export default function Categories({ loading, data }) {
   const [categoryIndex, setCategoryIndex] = useState(0);
 
-  useEffect(() => {
-    let canceled = false;
+  const navigation = useNavigation();
 
-    async function fetchCategories() {
-      const result = await api.get("products/categories");
-      if (!canceled) {
-        setCategory(result.data);
-      }
-    }
-
-    fetchCategories();
-    return () => {
-      canceled = true;
-    };
-  }, []);
-
-  const changeIndex = (index) => {
+  const changeIndex = (index, categories) => {
     setCategoryIndex(index);
-    onChangeSelect(categoryIndex);
+
+    navigation.navigate("Categories", { category: categories });
   };
 
   return (
@@ -32,10 +19,10 @@ export default function Categories({ onChangeSelect, loading }) {
       {loading ? (
         <FilterLoading>Carregando...</FilterLoading>
       ) : (
-        category.map((categories, index) => (
+        data.map((categories, index) => (
           <FilterButton
             key={index}
-            onPress={() => changeIndex(index)}
+            onPress={() => changeIndex(index, categories)}
             categoryIndex={categoryIndex}
             style={
               categoryIndex == index && {
