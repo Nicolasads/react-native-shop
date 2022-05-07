@@ -35,6 +35,7 @@ export const ItemTitle = styled.Text`
   color: ${(props) => props.theme.black};
   font-family: ${(props) => props.theme.bold};
   font-size: 14px;
+  width: 170px;
 `;
 
 export const ItemQty = styled.Text`

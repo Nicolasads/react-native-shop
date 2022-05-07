@@ -1,5 +1,5 @@
-import { View, Text } from "react-native";
 import React from "react";
+import { Alert } from "react-native";
 import {
   AddQuantity,
   AddQuantityText,
@@ -15,32 +15,66 @@ import {
   RemoveQuantity,
   RemoveQuantityText,
 } from "./styles";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
+import { useDispatch } from "react-redux";
+import {
+  addToCart,
+  decreaseQuantity,
+  removeFromCart,
+} from "../../features/cart/cartSlice";
 
-export default function CartItem() {
+export default function CartItem({ item }) {
+  const dispatch = useDispatch();
+
+  const handleIncrease = () => {
+    dispatch(addToCart(item));
+  };
+
+  const handleDecrease = () => {
+    if (item.quantity > 1) {
+      dispatch(decreaseQuantity(item));
+    } else if (item.quantity === 1) {
+      Alert.alert(
+        "Remover Item",
+        "Se deseja remover o item do carrinho clique em prosseguir.",
+        [
+          {
+            text: "Cancelar",
+            style: "cancel",
+          },
+          { text: "Prosseguir", onPress: () => dispatch(removeFromCart(item)) },
+        ]
+      );
+    }
+  };
+
   return (
-    <ItemContainer>
+    <ItemContainer key={item.id}>
       <ItemInfos>
-        <ItemImage source={require("../../assets/bolsa.png")} />
+        <ItemImage source={{ uri: item.image }} />
 
         <ItemDescription>
-          <ItemTitle>Fjallraven - Foldsack</ItemTitle>
+          <ItemTitle numberOfLines={2}>{item.title}</ItemTitle>
 
           <ItemValue>
-            <ItemQty>1x</ItemQty>
-            <ItemPrice>$109.95</ItemPrice>
+            <ItemQty>{item.quantity}x</ItemQty>
+            <ItemPrice>${item.price * item.quantity}</ItemPrice>
           </ItemValue>
         </ItemDescription>
       </ItemInfos>
 
       <AdjustQuantity>
-        <RemoveQuantity>
+        <RemoveQuantity onPress={() => handleDecrease()}>
           <RemoveQuantityText>
-            <AntDesign name="minus" size={16} color="#ccc" />
+            {item.quantity === 1 ? (
+              <FontAwesome5 name="trash" size={16} color="#8775FE" />
+            ) : (
+              <AntDesign name="minus" size={16} color="#ccc" />
+            )}
           </RemoveQuantityText>
         </RemoveQuantity>
 
-        <AddQuantity>
+        <AddQuantity onPress={() => handleIncrease()}>
           <AddQuantityText>
             <AntDesign name="plus" size={16} color="#ccc" />
           </AddQuantityText>

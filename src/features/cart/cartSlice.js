@@ -7,32 +7,30 @@ export const cartSlice = createSlice({
   },
   reducers: {
     addToCart: (state, action) => {
-      const prodQuantity = 1;
+      const itemIndex = state.cartItems.findIndex(
+        (item) => item.id === action.payload.id
+      );
 
-      state.cartItems.push({
-        id: action.payload.id,
-        price: action.payload.price,
-        title: action.payload.title,
-        image: action.payload.image,
-        quantity: prodQuantity,
-      });
-      console.log("action", action);
+      if (itemIndex >= 0) {
+        state.cartItems[itemIndex].quantity += 1;
+      } else {
+        const product = { ...action.payload, quantity: 1 };
+        state.cartItems.push(product);
+      }
     },
     removeFromCart: (state, action) => {
       state.cartItems = state.cartItems.filter(
         (cartItem) => cartItem.id !== action.payload.id
       );
     },
-    getAllItems: (state, action) => {
-      state.orderItems.push({
-        id: action.payload.id,
-        price: action.payload.price,
-        quantity: action.payload.quantity,
-        image: action.payload.image,
-        totalPrice: action.payload.totalPrice,
-      });
+    decreaseQuantity: (state, action) => {
+      const itemIndex = state.cartItems.findIndex(
+        (cartItem) => cartItem.id === action.payload.id
+      );
 
-      console.log("itens", action.payload);
+      if (state.cartItems[itemIndex].quantity > 1) {
+        state.cartItems[itemIndex].quantity -= 1;
+      }
     },
   },
 });
@@ -41,10 +39,11 @@ export const getCartItems = (state) => state.cart.cartItems;
 
 export const getTotalPrice = (state) => {
   return state.cart.cartItems.reduce((total, cartItem) => {
-    return cartItem.price + total;
+    return cartItem.price * cartItem.quantity + total;
   }, 0);
 };
 
-export const { addToCart, removeFromCart, getAllItems } = cartSlice.actions;
+export const { addToCart, removeFromCart, decreaseQuantity } =
+  cartSlice.actions;
 
 export default cartSlice.reducer;

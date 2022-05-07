@@ -23,6 +23,11 @@ export default function NewsCard({ data }) {
     setVisible(bool);
   };
 
+  const addItem = (item) => {
+    dispatch(addToCart(item));
+    setVisible(true);
+  };
+
   return (
     <>
       {data !== null &&
@@ -42,7 +47,7 @@ export default function NewsCard({ data }) {
             <CardFooter>
               <ItemPrice>$ {item.price} </ItemPrice>
 
-              <AddButton onPress={() => setVisible(true)}>
+              <AddButton onPress={() => addItem(item)}>
                 <Entypo name="plus" size={14} color="#8775FE" />
               </AddButton>
             </CardFooter>

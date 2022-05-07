@@ -14,6 +14,7 @@ import {
 import { Entypo } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
 import AddedItemModal from "../AddedItemModal";
+import { addToCart } from "../../features/cart/cartSlice";
 
 export default function ListCard({ item }) {
   const [visible, setVisible] = useState(false);
@@ -21,6 +22,11 @@ export default function ListCard({ item }) {
 
   const changeModalVisible = (bool) => {
     setVisible(bool);
+  };
+
+  const addItem = (item) => {
+    dispatch(addToCart(item));
+    setVisible(true);
   };
 
   return (
@@ -31,7 +37,7 @@ export default function ListCard({ item }) {
             <CardHeader>
               <CardImage source={{ uri: item.image }} />
 
-              <AddButton onPress={() => setVisible(true)}>
+              <AddButton onPress={() => addItem(item)}>
                 <Entypo name="plus" size={14} color="#8775FE" />
               </AddButton>
             </CardHeader>

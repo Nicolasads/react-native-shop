@@ -25,8 +25,6 @@ export default function Categories({ onChangeSelect, loading }) {
   const changeIndex = (index) => {
     setCategoryIndex(index);
     onChangeSelect(categoryIndex);
-
-    console.log("index", index);
   };
 
   return (
