@@ -54,7 +54,7 @@ export default function Cart({ navigation }) {
               data={getItems}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => <CartItem item={item} />}
-              style={{ marginTop: 30 }}
+              style={{ marginTop: 20 }}
               showsVerticalScrollIndicator={false}
             />
           </CartBody>

@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FlatList } from "react-native";
-import { Text } from "react-native";
-import AnimatedLoading from "../../components/AnimatedLoading";
+import { FlatList, ActivityIndicator } from "react-native";
 import Categories from "../../components/Categories";
 import ListCard from "../../components/ListCard";
 import NewsCard from "../../components/NewsCard";
@@ -14,6 +12,7 @@ import {
   FilterView,
   Header,
   ItemsListPlaceholder,
+  LoadingContent,
   NewItemsContainer,
   NewItemsContent,
   NewItemsPlaceholder,
@@ -85,45 +84,49 @@ export default function Home({ navigation }) {
     };
   }, []);
 
-  return loading ? (
-    <AnimatedLoading />
-  ) : (
+  return (
     <Container>
-      <FlatList
-        ListHeaderComponent={() => (
-          <>
-            <Header>
-              <TextHeader>Produtos</TextHeader>
+      <Header>
+        <TextHeader>Produtos</TextHeader>
 
-              <CartButton onPress={() => navigation.navigate("Cart")}>
-                <CartIcon source={require("../../assets/BAG_1.png")} />
-              </CartButton>
-            </Header>
+        <CartButton onPress={() => navigation.navigate("Cart")}>
+          <CartIcon source={require("../../assets/BAG_1.png")} />
+        </CartButton>
+      </Header>
 
-            <FilterView>
-              <FilterPlaceholder>Filtrar Categoria</FilterPlaceholder>
+      {loading ? (
+        <LoadingContent>
+          <ActivityIndicator color="#8775FE" size="large" />
+        </LoadingContent>
+      ) : (
+        <FlatList
+          ListHeaderComponent={() => (
+            <>
+              <FilterView>
+                <FilterPlaceholder>Filtrar Categoria</FilterPlaceholder>
 
-              <Categories loading={loading} data={category} />
-            </FilterView>
+                <Categories loading={loading} data={category} />
+              </FilterView>
 
-            <NewItemsContainer>
-              <NewItemsPlaceholder>Novidades</NewItemsPlaceholder>
-              <NewItemsContent
-                horizontal
-                showsHorizontalScrollIndicator={false}
-              >
-                <NewsCard data={news} />
-              </NewItemsContent>
-            </NewItemsContainer>
+              <NewItemsContainer>
+                <NewItemsPlaceholder>Novidades</NewItemsPlaceholder>
+                <NewItemsContent
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                >
+                  <NewsCard data={news} />
+                </NewItemsContent>
+              </NewItemsContainer>
 
-            <ItemsListPlaceholder>Listagem</ItemsListPlaceholder>
-          </>
-        )}
-        data={list}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <ListCard item={item} />}
-        numColumns={2}
-      />
+              <ItemsListPlaceholder>Listagem</ItemsListPlaceholder>
+            </>
+          )}
+          data={list}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => <ListCard item={item} />}
+          numColumns={2}
+        />
+      )}
     </Container>
   );
 }

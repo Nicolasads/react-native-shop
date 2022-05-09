@@ -5,7 +5,7 @@ export const CardContent = styled.View`
 `;
 
 export const ListContainer = styled.View`
-  padding: 15px 20px 0px;
+  padding: 15px 25px 0px;
   flex-direction: row;
   justify-content: space-between;
 `;

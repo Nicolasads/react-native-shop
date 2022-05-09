@@ -6,6 +6,7 @@ import { store } from "./src/features/store/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 import { NavigationContainer } from "@react-navigation/native";
+import AnimatedLoading from "./src/components/AnimatedLoading";
 
 import { useColorScheme } from "react-native";
 import {
@@ -43,7 +44,7 @@ export default function App() {
     <NavigationContainer>
       <ThemeProvider theme={theme}>
         <Provider store={store}>
-          <PersistGate loading={<Loading />} persistor={persistor}>
+          <PersistGate loading={<AnimatedLoading />} persistor={persistor}>
             <StatusBar style="auto" translucent={true} />
             <Routes />
             <Toast />

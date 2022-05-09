@@ -9,7 +9,7 @@ export const Header = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 40px 20px 0px;
+  padding: 40px 20px 10px;
 `;
 
 export const TextHeader = styled.Text`
@@ -28,7 +28,6 @@ export const CartIcon = styled.Image`
 
 export const FilterView = styled.View`
   padding-left: 20px;
-  margin-top: 15px;
 `;
 
 export const FilterPlaceholder = styled.Text`
@@ -64,4 +63,10 @@ export const ItemsListPlaceholder = styled.Text`
   color: ${(props) => props.theme.primaryText};
   margin-top: 15px;
   margin-left: 20px;
+`;
+
+export const LoadingContent = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
 `;

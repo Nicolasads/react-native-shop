@@ -23,7 +23,7 @@ export default function AnimatedLoading() {
         />
       </LoadingContainer>
       <LoadingContent>
-        <LoadingText> Carregando produtos da loja, aguarde... </LoadingText>
+        <LoadingText> Carregando suas preferências, aguarde... </LoadingText>
       </LoadingContent>
     </>
   );
