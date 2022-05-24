@@ -1,4 +1,4 @@
-# Weather App 👜 (Expo)
+# React native Shop 👜 (Expo)
 
 Um pequeno projeto em React Native utilizando o Expo Cli
 
